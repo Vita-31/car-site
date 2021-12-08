@@ -8,11 +8,7 @@ const dom = {
 render(createCardsHTML(CARS), dom.feed);
 getSort()
 
-const sortParams = {
-  top: '',
-  make: '',
-  price: ''
-}
+const sortParams = {}
 
 function getSort() {
   dom.sortSelect.addEventListener('change', (e) => {
@@ -22,8 +18,8 @@ function getSort() {
       const key = sortValue[0];
       const order = sortValue[1];
       createSort(key, order);
-      // console.log(e.target.value);
-      // sortParams[e.target.name] = e.target.value;
+      sortParams[e.target.name] = e.target.value
+      console.log(sortParams)
     }
   })
 }
