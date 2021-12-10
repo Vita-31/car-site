@@ -18,23 +18,34 @@ dom.searchForm.addEventListener('submit', e => {
   e.preventDefault()
   const query = deserializeQueryString(e.target.search.value)
   console.log(query);
-  CARS = search(query, INITIAL_CARS, searchFields)
+  CARS = searchTwo(query, INITIAL_CARS, searchFields)
   render(createCardsHTML(CARS), dom.feed);
   e.target.reset()
 })
 
 
-function search(query, array, fields) {
-  return array.filter(el => {
-    return query.every(word => {
-      return fields.some(field => {
-        return String(el[field]).toLowerCase().includes(word)
-      })
-    })
-  })
+// function search(query, array, fields) {
+//   return array.filter(el => {
+//     return query.every(word => {
+//       return fields.some(field => {
+//         return String(el[field]).toLowerCase().includes(word)
+//       })
+//     })
+//   })
+// }
+
+function searchTwo(query, array, fields) {
+  for(let i = 0; i < array.length; i++) {
+    console.log(array[i])
+    for(let j = 0; j < query.length; j++) {
+      console.log(query[j])
+      for(let k = 0; k < fields.length; k++) {
+        console.log(fields[k])
+        return String(array[i][fields[k]]).toLowerCase().includes[query[j]]
+      }
+    }
+  }
 }
-
-
 
 
 
@@ -53,25 +64,6 @@ function getSort() {
     }
   });
 }
-
-// sortSelect.addEventListener('change', e => {
-
-// console.log(`Change on ${e.target.name}`, e.target.value);
-// sortParams[e.target.name] = e.target.value
-// console.log(sortParams);
-// })
-
-// function getSort() {
-//   const selects = dom.sortSelect.querySelectorAll('.sort__select');
-//   selects.forEach( select => {
-//     select.addEventListener('change', (e) => {
-//       const sortValue = e.target.value.split('/');
-//       const key = sortValue[0];
-//       const order = sortValue[1]
-//       createSort(key, order)
-//     })
-//   })
-// }
 
 function createSort(key, order) {
   CARS.sort((a, b) => {
