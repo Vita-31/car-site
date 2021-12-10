@@ -227,4 +227,41 @@ function createRating(rating) {
 //   console.log('Click!');
 // })
 
-// const children = [{name: 'Nick', gender: 'male', height: 165}]
+const children = [
+  {name: 'Nick', gender: 'male', height: 165}, 
+  {name: 'Ira', gender: 'female', height: 157},
+  {name: 'Lera', gender: 'female', height: 140},
+  {name: 'Ivan', gender: 'male', height: 160},
+  {name: 'Oleh', gender: 'male', height: 163}, 
+  {name: 'Lina', gender: 'female', height: 155},
+  {name: 'Stas', gender: 'male', height: 161},
+  {name: 'Kira', gender: 'female', height: 156},
+  {name: 'Den', gender: 'male', height: 158},
+  {name: 'Kris', gender: 'female', height: 164}
+]
+
+const children2 = [
+  {name: 'Nick', gender: 'male', height: 165}, 
+  {name: 'Ira', gender: 'female', height: 157},
+  {name: 'Lera', gender: 'female', height: 140},
+  {name: 'Ivan', gender: 'male', height: 160},
+  {name: 'Oleh', gender: 'male', height: 163}, 
+  {name: 'Lina', gender: 'female', height: 155},
+  {name: 'Stas', gender: 'male', height: 161},
+  {name: 'Kira', gender: 'female', height: 156},
+  {name: 'Den', gender: 'male', height: 158},
+  {name: 'Kris', gender: 'female', height: 164}
+]
+
+children.sort((a, b) => {
+  return String(Number(a.gender)).localeCompare(String(Number(b.gender)), undefined, {numeric: true}) * -1 || 
+  String(Number(a.height)).localeCompare(String(Number(b.height)), undefined, {numeric: true}) * -1 
+})
+
+children2.sort((a, b) => {
+  return String(Number(a.gender)).localeCompare(String(Number(b.gender)), undefined, {numeric: true}) * 1 || 
+  String(Number(a.height)).localeCompare(String(Number(b.height)), undefined, {numeric: true}) * 1
+})
+
+  console.log(children)
+  console.log(children2)
