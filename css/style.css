@@ -99,10 +99,33 @@ h4 {
     padding: 10px;
 }
 
+.tab {
+    display: flex;
+}
+
+.tab-icon {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.tab-icon i {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
 .filter {
     max-width: 340px;
     width: 100%;
     margin-right: 30px;
+    margin-bottom: 20px;
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between; */
 }
 
 .filter-title {
@@ -116,7 +139,7 @@ h4 {
     padding-bottom: 15px;
 }
 
-.sort::after {
+/* .sort::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -124,7 +147,7 @@ h4 {
     background-color: #dcdcdc;
     bottom: 0;
     left: 0;
-}
+} */
 
 .sort__select {
     margin-bottom: 10px;
@@ -139,6 +162,42 @@ h4 {
 .title {
     text-align: center;
     margin: 60px 0;
+}
+
+.feed {
+    transition: .3s;
+}
+
+.feed.feed-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    transition: .3s;
+}
+
+.feed.feed-column .card__seller {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.feed.feed-column .card__seller-block {
+    margin-bottom: 10px;
+}
+
+.feed.feed-column .card__seller-name {
+    margin-bottom: 5px;
+}
+
+.feed.feed-column .card__code {
+    display: block;
+}
+
+.feed.feed-column .card__bottom {
+    display: block;
+}
+
+.feed.feed-column .card__stars {
+    margin-bottom: 5px;
 }
 
 .card {
@@ -169,6 +228,7 @@ h4 {
     height: 350px;
     margin-right: 30px;
     position: relative;
+    flex: 1;
 }
 
 .photo__top {

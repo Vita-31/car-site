@@ -137,16 +137,19 @@ function createCardHTML(cardData) {
                 </dt>
             </dl>
             <dl class="card__seller">
-              <dt class="card__seller-name">Продавець: 
-                  <dd> ${cardData.seller || ' -'}</dd>
-              </dt> 
-              <dt class="card__seller-tel">Подзвонити:
+              <div class="card__seller-block">
+                <dt class="card__seller-name">Продавець:</dt>
+                <dd> ${cardData.seller || ' -'}</dd> 
+              </div>
+              <div class="card__seller-block">
+              <dt class="card__seller-tel">Подзвонити:</dt>
                 <dd>
                   <a href="tel:${cardData.phone || ' -'}" >
                     <span></span> ${cardData.phone || ' -'}
                   </a>
                 </dd>
-              </dt>
+              </div>
+              
             </dl>
             <h3>Розхід</h3>
             <dl class="card__consume">
