@@ -1,37 +1,65 @@
-const CARS = JSON.parse(DATA);
+const INITIAL_CARS = JSON.parse(DATA);
+let CARS = INITIAL_CARS
 
 const dom = {
   feed: document.getElementById('feed'),
   sortSelect: document.getElementById('sortSelect'),
+  searchForm: document.getElementById('searchForm')
 };
+const searchFields = ['make','model','year']
+
 
 render(createCardsHTML(CARS), dom.feed);
-getSort()
+getSort();
 
-const sortParams = {}
 
+
+dom.searchForm.addEventListener('submit', e => {
+  e.preventDefault()
+  const query = deserializeQueryString(e.target.search.value)
+  console.log(query);
+  CARS = search(query, INITIAL_CARS, searchFields)
+  render(createCardsHTML(CARS), dom.feed);
+  e.target.reset()
+})
+
+
+function search(query, array, fields) {
+  return array.filter(el => {
+    return query.every(word => {
+      return fields.some(field => {
+        return String(el[field]).toLowerCase().includes(word)
+      })
+    })
+  })
+}
+
+
+
+
+
+function deserializeQueryString(str = '') {
+  return str.trim().replaceAll(/[\s]{2,}/g, ' ').toLowerCase().split(' ')
+}
 function getSort() {
   dom.sortSelect.addEventListener('change', (e) => {
-    const select = e.target.classList.contains('sort__select')
-    if(select) {
+    const select = e.target.classList.contains('sort__select');
+    if (select) {
       const sortValue = e.target.value.split('/');
       const key = sortValue[0];
       const order = sortValue[1];
       createSort(key, order);
-      sortParams[e.target.name] = e.target.value
-      console.log(sortParams)
+      render(createCardsHTML(CARS), dom.feed);
     }
-  })
+  });
 }
 
 // sortSelect.addEventListener('change', e => {
 
-  // console.log(`Change on ${e.target.name}`, e.target.value);
-  // sortParams[e.target.name] = e.target.value
-  // console.log(sortParams);
+// console.log(`Change on ${e.target.name}`, e.target.value);
+// sortParams[e.target.name] = e.target.value
+// console.log(sortParams);
 // })
-
-
 
 // function getSort() {
 //   const selects = dom.sortSelect.querySelectorAll('.sort__select');
@@ -47,11 +75,12 @@ function getSort() {
 
 function createSort(key, order) {
   CARS.sort((a, b) => {
-    return String(Number(a[key]) || a[key]).localeCompare(String(Number(b[key]) || b[key]), undefined, {numeric: true}) * order 
-  })
-  render(createCardsHTML(CARS), dom.feed)
+    return (
+      String(Number(a[key]) || a[key]).localeCompare(String(Number(b[key]) || b[key]), undefined, { numeric: true }) *
+      order
+    );
+  });
 }
-
 
 function render(htmlStr, domElem, insertTo) {
   if (insertTo) {
@@ -65,12 +94,13 @@ function createCardsHTML(cardsArray) {
   return cardsArray.map((cardData) => createCardHTML(cardData)).join('');
 }
 
-
 function createCardHTML(cardData) {
   return `
       <div class="card">
         <div class="card__photo">
-            <img src="${cardData.img}" alt="${cardData.make} ${cardData.model} ${cardData.year}" width="1" height="1" loading="lazy" decoding="async"> 
+            <img src="${cardData.img}" alt="${cardData.make} ${cardData.model} ${
+    cardData.year
+  }" width="1" height="1" loading="lazy" decoding="async"> 
             <div class="photo__top">
             ${
               (cardData.vin_check && `<div class="photo__top-code"><i class="fas fa-car"></i> Перевірено! </div>`) || ''
@@ -193,7 +223,8 @@ function createRating(rating) {
 // en-US
 // en-CA
 
-
 // document.addEventListener('click', e => {
 //   console.log('Click!');
 // })
+
+// const children = [{name: 'Nick', gender: 'male', height: 165}]

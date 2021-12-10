@@ -63,6 +63,40 @@ h4 {
 
 .wrapper {
     display: flex;
+    flex-wrap: wrap;
+}
+.top-bar{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    font-size: 16px;
+    line-height: 120%;
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
+    width: 100%;
+    height: 40px;
+    outline: none;
+    margin-right: 20px;
+    padding: 10px;
+}
+
+.button {
+    font-size: 16px; 
+    line-height: 120%;
+    background-color: #000;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+    height: 40px;
+    width: 240px;
+    padding: 10px;
 }
 
 .filter {
