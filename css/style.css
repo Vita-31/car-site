@@ -306,6 +306,7 @@ h4 {
 .card__rating {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .card__block {
@@ -357,15 +358,40 @@ h4 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin-top: 30px;
+}
+
+.card__stars {
+    margin-bottom: 10px;
 }
 
 .card__bottom-date {
     font-size: 18px;
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
+    margin-right: 20px;
 }
 
 .card__bottom-date p:first-child {
     margin-right: 10px;
+}
+
+.card__favorite {
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.favorite-icon {
+    position: absolute;
+}
+
+.favorite-icon--full {
+    opacity: 0;
+}
+
+.card__favorite.favorite .favorite-icon--full {
+    opacity: 1;
 }

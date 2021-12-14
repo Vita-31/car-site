@@ -18,6 +18,17 @@ dom.searchForm.addEventListener('submit', (e) => {
   e.target.reset();
 });
 
+dom.feed.addEventListener('click', (e) => {
+
+  if(e.target.classList.contains('favorite-icon')) {
+    const parentIcons = e.target.parentNode;
+    console.log( parentIcons)
+    parentIcons.classList.toggle('favorite')
+  }
+})
+
+
+
 // function search(query, array, fields) {
 //   return array.filter(el => {
 //     return query.every(word => {
@@ -188,7 +199,12 @@ function createCardHTML(cardData) {
                 <p>Дата створення оголошення:</p>
                 <p>${new Date(cardData.timestamp).toLocaleDateString()}</p>
               </div>
+              <div class="card__favorite" data-icon="favorite">
+                <i class="favorite-icon favorite-icon--full fas fa-star"></i>
+                <i class="favorite-icon favorite-icon--empty far fa-star"></i>
+              </div>
             </div>
+
         </div>
       </div>
     `;
