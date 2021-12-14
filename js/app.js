@@ -4,9 +4,7 @@ import { dom } from "./dom.js";
 const INITIAL_CARS = JSON.parse(DATA);
 let CARS = INITIAL_CARS;
 const wishCars = JSON.parse(localStorage.getItem('wishCars')) || []
-console.log(wishCars
-  
-  );
+
 const searchFields = ['make', 'model', 'year'];
 
 render(createCardsHTML(CARS), dom.feed);
@@ -15,7 +13,6 @@ getSort();
 dom.searchForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const query = deserializeQueryString(e.target.search.value);
-  console.log(query);
   CARS = searchTwo(query, INITIAL_CARS, searchFields);
   render(createCardsHTML(CARS), dom.feed);
   e.target.reset();
@@ -272,6 +269,3 @@ children.sort((a, b) => {
 children2.sort((a, b) => {
   return a.gender.localeCompare(b.gender) * 1 || (a.height - b.height) * 1;
 });
-
-console.log(children);
-console.log(children2);
