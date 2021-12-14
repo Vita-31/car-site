@@ -379,9 +379,9 @@ h4 {
 }
 
 .card__favorite {
-    margin-bottom: 10px;
     position: relative;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .favorite-icon {

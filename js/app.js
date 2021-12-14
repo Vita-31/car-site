@@ -22,10 +22,16 @@ dom.feed.addEventListener('click', (e) => {
 
   if(e.target.classList.contains('favorite-icon')) {
     const parentIcons = e.target.parentNode;
-    console.log( parentIcons)
     parentIcons.classList.toggle('favorite')
+    setCars(CARS)
   }
 })
+
+function setCars(cars) {
+  let carId = cars.id;
+  console.log(carId)
+  localStorage.setItem('id', 'carId')
+}
 
 
 
