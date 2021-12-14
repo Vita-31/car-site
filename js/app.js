@@ -1,28 +1,25 @@
+import { DATA } from "./cars.js";
+import { dom } from "./dom.js";
+
 const INITIAL_CARS = JSON.parse(DATA);
-let CARS = INITIAL_CARS
-
-const dom = {
-  feed: document.getElementById('feed'),
-  sortSelect: document.getElementById('sortSelect'),
-  searchForm: document.getElementById('searchForm')
-};
-const searchFields = ['make','model','year']
-
+let CARS = INITIAL_CARS;
+const wishCars = JSON.parse(localStorage.getItem('wishCars')) || []
+console.log(wishCars
+  
+  );
+const searchFields = ['make', 'model', 'year'];
 
 render(createCardsHTML(CARS), dom.feed);
 getSort();
 
-
-
-dom.searchForm.addEventListener('submit', e => {
-  e.preventDefault()
-  const query = deserializeQueryString(e.target.search.value)
+dom.searchForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const query = deserializeQueryString(e.target.search.value);
   console.log(query);
-  CARS = searchTwo(query, INITIAL_CARS, searchFields)
+  CARS = searchTwo(query, INITIAL_CARS, searchFields);
   render(createCardsHTML(CARS), dom.feed);
-  e.target.reset()
-})
-
+  e.target.reset();
+});
 
 // function search(query, array, fields) {
 //   return array.filter(el => {
@@ -35,22 +32,42 @@ dom.searchForm.addEventListener('submit', e => {
 // }
 
 function searchTwo(query, array, fields) {
-  for(let i = 0; i < array.length; i++) {
-    console.log(array[i])
-    for(let j = 0; j < query.length; j++) {
-      console.log(query[j])
-      for(let k = 0; k < fields.length; k++) {
-        console.log(fields[k])
-        return String(array[i][fields[k]]).toLowerCase().includes[query[j]]
+  const filteredArray = [];
+  for (let i = 0; i < array.length; i++) {
+    //filter
+    const el = array[i];
+    let filterResult = false;
+    for (let j = 0; j < query.length; j++) {
+      //every
+      const word = query[j];
+      let everyResult = false;
+      for (let k = 0; k < fields.length; k++) {
+        //some
+        const field = fields[k];
+        let someResult = String(el[field]).toLowerCase().includes(word);
+        everyResult = someResult;
+        if (someResult) {
+          break;
+        }
+      }
+      filterResult = everyResult;
+      if (!everyResult) {
+        break;
       }
     }
+    if (filterResult) {
+      filteredArray.push(el);
+    }
   }
+  return filteredArray;
 }
 
-
-
 function deserializeQueryString(str = '') {
-  return str.trim().replaceAll(/[\s]{2,}/g, ' ').toLowerCase().split(' ')
+  return str
+    .trim()
+    .replaceAll(/[\s]{2,}/g, ' ')
+    .toLowerCase()
+    .split(' ');
 }
 function getSort() {
   dom.sortSelect.addEventListener('change', (e) => {
@@ -88,7 +105,7 @@ function createCardsHTML(cardsArray) {
 
 function createCardHTML(cardData) {
   return `
-      <div class="card">
+      <div class="card" data-id="${cardData.id}">
         <div class="card__photo">
             <img src="${cardData.img}" alt="${cardData.make} ${cardData.model} ${
     cardData.year
@@ -223,40 +240,38 @@ function createRating(rating) {
 // })
 
 const children = [
-  {name: 'Nick', gender: 'male', height: 165}, 
-  {name: 'Ira', gender: 'female', height: 157},
-  {name: 'Lera', gender: 'female', height: 140},
-  {name: 'Ivan', gender: 'male', height: 160},
-  {name: 'Oleh', gender: 'male', height: 163}, 
-  {name: 'Lina', gender: 'female', height: 155},
-  {name: 'Stas', gender: 'male', height: 161},
-  {name: 'Kira', gender: 'female', height: 156},
-  {name: 'Den', gender: 'male', height: 158},
-  {name: 'Kris', gender: 'female', height: 164}
-]
+  { name: 'Nick', gender: 'male', height: 165 },
+  { name: 'Ira', gender: 'female', height: 157 },
+  { name: 'Lera', gender: 'female', height: 140 },
+  { name: 'Ivan', gender: 'male', height: 160 },
+  { name: 'Oleh', gender: 'male', height: 163 },
+  { name: 'Lina', gender: 'female', height: 155 },
+  { name: 'Stas', gender: 'male', height: 161 },
+  { name: 'Kira', gender: 'female', height: 156 },
+  { name: 'Den', gender: 'male', height: 158 },
+  { name: 'Kris', gender: 'female', height: 164 },
+];
 
 const children2 = [
-  {name: 'Nick', gender: 'male', height: 165}, 
-  {name: 'Ira', gender: 'female', height: 157},
-  {name: 'Lera', gender: 'female', height: 140},
-  {name: 'Ivan', gender: 'male', height: 160},
-  {name: 'Oleh', gender: 'male', height: 163}, 
-  {name: 'Lina', gender: 'female', height: 155},
-  {name: 'Stas', gender: 'male', height: 161},
-  {name: 'Kira', gender: 'female', height: 156},
-  {name: 'Den', gender: 'male', height: 158},
-  {name: 'Kris', gender: 'female', height: 164}
-]
+  { name: 'Nick', gender: 'male', height: 165 },
+  { name: 'Ira', gender: 'female', height: 157 },
+  { name: 'Lera', gender: 'female', height: 140 },
+  { name: 'Ivan', gender: 'male', height: 160 },
+  { name: 'Oleh', gender: 'male', height: 163 },
+  { name: 'Lina', gender: 'female', height: 155 },
+  { name: 'Stas', gender: 'male', height: 161 },
+  { name: 'Kira', gender: 'female', height: 156 },
+  { name: 'Den', gender: 'male', height: 158 },
+  { name: 'Kris', gender: 'female', height: 164 },
+];
 
 children.sort((a, b) => {
-  return String(Number(a.gender)).localeCompare(String(Number(b.gender)), undefined, {numeric: true}) * -1 || 
-  String(Number(a.height)).localeCompare(String(Number(b.height)), undefined, {numeric: true}) * -1 
-})
+  return a.gender.localeCompare(b.gender) * -1 || (a.height - b.height) * -1;
+});
 
 children2.sort((a, b) => {
-  return String(Number(a.gender)).localeCompare(String(Number(b.gender)), undefined, {numeric: true}) * 1 || 
-  String(Number(a.height)).localeCompare(String(Number(b.height)), undefined, {numeric: true}) * 1
-})
+  return a.gender.localeCompare(b.gender) * 1 || (a.height - b.height) * 1;
+});
 
-  console.log(children)
-  console.log(children2)
+console.log(children);
+console.log(children2);

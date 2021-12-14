@@ -1,15 +1,18 @@
+import { dom } from "./dom.js";
 const tabs = document.getElementById('tabs');
+
+console.log(dom);
 
 if(tabs) {
     tabs.addEventListener('click', (e) => {
-        const feed = document.getElementById('feed')
         if(e.target.classList.contains('fa-columns')) {
-            feed.classList.add('feed-column')
+            dom.feed.classList.add('feed-column')
         }
         if(e.target.classList.contains('fa-minus-square')) {
-            feed.classList.remove('feed-column')
+            dom.feed.classList.remove('feed-column')
         }
     })
 }
+
 
 
