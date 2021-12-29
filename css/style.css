@@ -32,6 +32,8 @@ ul, li {
 button {
     outline: none;
     border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 img {
@@ -68,6 +70,9 @@ h4 {
 .top-bar{
     width: 100%;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .search-form {
@@ -110,8 +115,7 @@ h4 {
 }
 
 .tab-icon i {
-    width: 20px;
-    height: 20px;
+    font-size: 20px;
     margin-right: 10px;
     background-color: #fff;
     color: #000;
@@ -396,4 +400,22 @@ h4 {
 
 .card__favorite.favorite .favorite-icon--full {
     opacity: 1;
+}
+
+.favorite {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.favorite:hover {
+    background-color: #dcdcdc;
+    border-radius: 4px;
+}
+
+.favorite__text {
+    font-size: 17px;
+    line-height: 120%;
 }

@@ -3,12 +3,22 @@ import { dom } from "./dom.js";
 
 const INITIAL_CARS = JSON.parse(DATA);
 let CARS = INITIAL_CARS;
-const wishCars = JSON.parse(localStorage.getItem('wishCars')) || []
+const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || []
+// console.log('favoriteCars', favoriteCars);
+
 
 const searchFields = ['make', 'model', 'year'];
 
 render(createCardsHTML(CARS), dom.feed);
-getSort();
+
+
+dom.sortSelect.addEventListener('change', (e) => {
+    const sortValue = e.target.value.split('/');
+    const key = sortValue[0];
+    const order = sortValue[1];
+    createSort(key, order);
+    render(createCardsHTML(CARS), dom.feed);
+});
 
 dom.searchForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -19,62 +29,66 @@ dom.searchForm.addEventListener('submit', (e) => {
 });
 
 dom.feed.addEventListener('click', (e) => {
-
-  if(e.target.classList.contains('favorite-icon')) {
-    const parentIcons = e.target.parentNode;
-    parentIcons.classList.toggle('favorite')
-    setCars(CARS)
+  const favoriteBtn = e.target.closest('.card__favorite')
+  if (favoriteBtn) {
+    favoriteBtn.classList.toggle('favorite')
+    const carId = favoriteBtn.closest('.card').dataset.id
+    setFavoriteCar(carId)
   }
 })
 
-function setCars(cars) {
-  let carId = cars.id;
-  console.log(carId)
-  localStorage.setItem('id', 'carId')
-}
-
-
-
-// function search(query, array, fields) {
-//   return array.filter(el => {
-//     return query.every(word => {
-//       return fields.some(field => {
-//         return String(el[field]).toLowerCase().includes(word)
-//       })
-//     })
-//   })
-// }
-
-function searchTwo(query, array, fields) {
-  const filteredArray = [];
-  for (let i = 0; i < array.length; i++) {
-    //filter
-    const el = array[i];
-    let filterResult = false;
-    for (let j = 0; j < query.length; j++) {
-      //every
-      const word = query[j];
-      let everyResult = false;
-      for (let k = 0; k < fields.length; k++) {
-        //some
-        const field = fields[k];
-        let someResult = String(el[field]).toLowerCase().includes(word);
-        everyResult = someResult;
-        if (someResult) {
-          break;
-        }
-      }
-      filterResult = everyResult;
-      if (!everyResult) {
-        break;
-      }
-    }
-    if (filterResult) {
-      filteredArray.push(el);
-    }
+function setFavoriteCar(carId) {
+  const exist = favoriteCars.findIndex(favoriteCarId => favoriteCarId === carId)
+  if (exist === -1) {
+    favoriteCars.push(carId)
+  } else{
+    favoriteCars.splice(exist, 1)
   }
-  return filteredArray;
+  localStorage.setItem('favoriteCars', JSON.stringify(favoriteCars))
 }
+
+
+
+function search(query, array, fields) {
+  return array.filter(el => {
+    return query.every(word => {
+      return fields.some(field => {
+        return String(el[field]).toLowerCase().includes(word)
+      })
+    })
+  })
+}
+
+// function searchTwo(query, array, fields) {
+//   const filteredArray = [];
+//   for (let i = 0; i < array.length; i++) {
+//     //filter
+//     const el = array[i];
+//     let filterResult = false;
+//     for (let j = 0; j < query.length; j++) {
+//       //every
+//       const word = query[j];
+//       let everyResult = false;
+//       for (let k = 0; k < fields.length; k++) {
+//         //some
+//         const field = fields[k];
+//         let someResult = String(el[field]).toLowerCase().includes(word);
+//         everyResult = someResult;
+//         if (someResult) {
+//           break;
+//         }
+//       }
+//       filterResult = everyResult;
+//       if (!everyResult) {
+//         break;
+//       }
+//     }
+//     if (filterResult) {
+//       filteredArray.push(el);
+//     }
+//   }
+//   return filteredArray;
+// }
 
 function deserializeQueryString(str = '') {
   return str
@@ -82,18 +96,6 @@ function deserializeQueryString(str = '') {
     .replaceAll(/[\s]{2,}/g, ' ')
     .toLowerCase()
     .split(' ');
-}
-function getSort() {
-  dom.sortSelect.addEventListener('change', (e) => {
-    const select = e.target.classList.contains('sort__select');
-    if (select) {
-      const sortValue = e.target.value.split('/');
-      const key = sortValue[0];
-      const order = sortValue[1];
-      createSort(key, order);
-      render(createCardsHTML(CARS), dom.feed);
-    }
-  });
 }
 
 function createSort(key, order) {
@@ -205,10 +207,10 @@ function createCardHTML(cardData) {
                 <p>Дата створення оголошення:</p>
                 <p>${new Date(cardData.timestamp).toLocaleDateString()}</p>
               </div>
-              <div class="card__favorite" data-icon="favorite"> f
+              <button class="card__favorite ${favoriteCars.includes(cardData.id) ? 'favorite' : ''}" data-icon="favorite">
                 <i class="favorite-icon favorite-icon--full fas fa-star"></i>
                 <i class="favorite-icon favorite-icon--empty far fa-star"></i>
-              </div>
+              </button>
             </div>
 
         </div>
@@ -291,3 +293,6 @@ children.sort((a, b) => {
 children2.sort((a, b) => {
   return a.gender.localeCompare(b.gender) * 1 || (a.height - b.height) * 1;
 });
+
+
+
