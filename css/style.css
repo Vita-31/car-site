@@ -392,6 +392,8 @@ h4 {
 
 .favorite-icon {
     position: absolute;
+    top: 3px;
+    left: 2px;
 }
 
 .favorite-icon--full {
