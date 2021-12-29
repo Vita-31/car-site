@@ -205,7 +205,7 @@ function createCardHTML(cardData) {
                 <p>Дата створення оголошення:</p>
                 <p>${new Date(cardData.timestamp).toLocaleDateString()}</p>
               </div>
-              <div class="card__favorite" data-icon="favorite">
+              <div class="card__favorite" data-icon="favorite"> f
                 <i class="favorite-icon favorite-icon--full fas fa-star"></i>
                 <i class="favorite-icon favorite-icon--empty far fa-star"></i>
               </div>
