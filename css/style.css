@@ -278,6 +278,7 @@ h4 {
 
 .card-title {
     font-size: 26px;
+    line-height: 120%;
     margin-bottom: 20px;
     font-weight: bold;
 }
