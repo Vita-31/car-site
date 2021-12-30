@@ -72,12 +72,20 @@ h4 {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
+}
+
+.top-details {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
 .search-form {
     display: flex;
     align-items: center;
+    width: 40%;
 }
 
 .search-input {
@@ -139,14 +147,26 @@ h4 {
     background-color: transparent;
     border: none;
     outline: none;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-icon:hover {
+    background-color: #cdcdcd;
+    border-radius: 4px;
 }
 
 .tab-icon i {
     font-size: 20px;
-    margin-right: 10px;
     background-color: #fff;
     color: #000;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
 }
 
 .filter {
