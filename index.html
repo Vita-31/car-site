@@ -18,7 +18,7 @@
                 <div class="top-bar">
                     <form class="search-form" id="searchForm">
                         <input class="search-input" type="search" name="search" placeholder="Search cars">
-                        <button class="button" type="submit">Search</button>
+                        <button class="button button--base" type="submit">Search</button>
                     </form>
                     <div class="tab" id="tabs">
                         <button class="tab-icon"><i class="fas fa-columns" data-icon="column"></i></button>
@@ -45,7 +45,23 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="pagination">
+                    <button class="button button--small" aria-label="preveiw page" disabled>
+                        <i class="fas fa-arrow-left pagination__icon"></i>
+                    </button>
+                    <ul class="pagination__list">
+                        <li><a href="#" class="pagination__page pagination__page--active">1</a></li>
+                        <li><a href="#" class="pagination__page">2</a></li>
+                        <li><a href="#" class="pagination__page">3</a></li>
+                        <li><a href="#" class="pagination__page">...</a></li>
+                        <li><a href="#" class="pagination__page">13</a></li>
+                        <li><a href="#" class="pagination__page">14</a></li>
+                        <li><a href="#" class="pagination__page">15</a></li>
+                    </ul>
+                    <button class="button button--small" aria-label="next page">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
                 <div class="feed">
                     <div class="feed" id="feed"></div>
                 </div>
@@ -55,8 +71,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
-            <!-- <script src="./js/feed-column.js"></script>
-        <script src="./js/cars.js"></script>  -->
         <script  type="module" src="./js/app.js"></script>
         <script type="module" src="./js/feed-column.js"></script>
     </body>

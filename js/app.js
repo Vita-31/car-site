@@ -4,8 +4,6 @@ import { dom } from "./dom.js";
 const INITIAL_CARS = JSON.parse(DATA);
 let CARS = INITIAL_CARS;
 const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || []
-// console.log('favoriteCars', favoriteCars);
-
 
 const searchFields = ['make', 'model', 'year'];
 
