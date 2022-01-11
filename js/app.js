@@ -3,6 +3,8 @@ import { dom } from "./dom.js";
 
 const INITIAL_CARS = JSON.parse(DATA);
 let CARS = INITIAL_CARS;
+
+
 const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || []
 
 const searchFields = ['make', 'model', 'year'];
@@ -230,6 +232,56 @@ function createRating(rating) {
   return stars;
 }
 
+
+const queryParams = Object.fromEntries(location.search.slice(1).split('&').map(pair=> pair.split('=')))
+const currentPage = Number(queryParams.page) || 7
+let itemsPerPage = 10
+
+renderPagination(currentPage, CARS.length, itemsPerPage) 
+
+function renderPagination(currentPage, totalItems, itemsPerPage) {
+  const firstPage = 1
+  const lastPage = Math.ceil(totalItems / itemsPerPage)
+  const paginationPages = []
+  paginationPages.push(firstPage)
+  if(currentPage === firstPage + 1) {
+    paginationPages.push(currentPage + '...') 
+  }
+  if(currentPage === lastPage - 1) {
+    paginationPages.push('...' + currentPage) 
+  }
+  if(currentPage !== firstPage + 1 && currentPage !== lastPage - 1) {
+    paginationPages.push('...')
+    paginationPages.push(currentPage - 1)
+    paginationPages.push(currentPage)
+    paginationPages.push(currentPage + 1)
+    paginationPages.push('...')
+  }
+  paginationPages.push(lastPage)
+  console.log(paginationPages)
+}
+
+// currentPage = 7
+// pages = 15
+// array is = ['1','...','6','7','8','...','15']
+//'
+
+// currentPage = 1
+// pages = 15
+// array is = ['1','2','...','15']
+//
+
+// currentPage = 15
+// pages = 15
+// array is = ['1','...','14','15']
+//
+
+// currentPage = 3
+// pages = 15
+// array is = ['1','2','3','...','15']
+//
+
+
 // const array = [5,10,9,12,2,6,7,11,4,3]
 // array.sort((a,b) => {
 //   return String(a).localeCompare(String(b), undefined, {numeric: true})
@@ -258,39 +310,39 @@ function createRating(rating) {
 //   console.log('Click!');
 // })
 
-const children = [
-  { name: 'Nick', gender: 'male', height: 165 },
-  { name: 'Ira', gender: 'female', height: 157 },
-  { name: 'Lera', gender: 'female', height: 140 },
-  { name: 'Ivan', gender: 'male', height: 160 },
-  { name: 'Oleh', gender: 'male', height: 163 },
-  { name: 'Lina', gender: 'female', height: 155 },
-  { name: 'Stas', gender: 'male', height: 161 },
-  { name: 'Kira', gender: 'female', height: 156 },
-  { name: 'Den', gender: 'male', height: 158 },
-  { name: 'Kris', gender: 'female', height: 164 },
-];
+// const children = [
+//   { name: 'Nick', gender: 'male', height: 165 },
+//   { name: 'Ira', gender: 'female', height: 157 },
+//   { name: 'Lera', gender: 'female', height: 140 },
+//   { name: 'Ivan', gender: 'male', height: 160 },
+//   { name: 'Oleh', gender: 'male', height: 163 },
+//   { name: 'Lina', gender: 'female', height: 155 },
+//   { name: 'Stas', gender: 'male', height: 161 },
+//   { name: 'Kira', gender: 'female', height: 156 },
+//   { name: 'Den', gender: 'male', height: 158 },
+//   { name: 'Kris', gender: 'female', height: 164 },
+// ];
 
-const children2 = [
-  { name: 'Nick', gender: 'male', height: 165 },
-  { name: 'Ira', gender: 'female', height: 157 },
-  { name: 'Lera', gender: 'female', height: 140 },
-  { name: 'Ivan', gender: 'male', height: 160 },
-  { name: 'Oleh', gender: 'male', height: 163 },
-  { name: 'Lina', gender: 'female', height: 155 },
-  { name: 'Stas', gender: 'male', height: 161 },
-  { name: 'Kira', gender: 'female', height: 156 },
-  { name: 'Den', gender: 'male', height: 158 },
-  { name: 'Kris', gender: 'female', height: 164 },
-];
+// const children2 = [
+//   { name: 'Nick', gender: 'male', height: 165 },
+//   { name: 'Ira', gender: 'female', height: 157 },
+//   { name: 'Lera', gender: 'female', height: 140 },
+//   { name: 'Ivan', gender: 'male', height: 160 },
+//   { name: 'Oleh', gender: 'male', height: 163 },
+//   { name: 'Lina', gender: 'female', height: 155 },
+//   { name: 'Stas', gender: 'male', height: 161 },
+//   { name: 'Kira', gender: 'female', height: 156 },
+//   { name: 'Den', gender: 'male', height: 158 },
+//   { name: 'Kris', gender: 'female', height: 164 },
+// ];
 
-children.sort((a, b) => {
-  return a.gender.localeCompare(b.gender) * -1 || (a.height - b.height) * -1;
-});
+// children.sort((a, b) => {
+//   return a.gender.localeCompare(b.gender) * -1 || (a.height - b.height) * -1;
+// });
 
-children2.sort((a, b) => {
-  return a.gender.localeCompare(b.gender) * 1 || (a.height - b.height) * 1;
-});
+// children2.sort((a, b) => {
+//   return a.gender.localeCompare(b.gender) * 1 || (a.height - b.height) * 1;
+// });
 
 
 
