@@ -15,7 +15,7 @@ const queryParams = Object.fromEntries(
     .map((pair) => pair.split('='))
 );
 const currentPage = Number(queryParams.page) || 7;
-let itemsPerPage = 2;
+let itemsPerPage = 5; 
 
 renderPagination(dom.paginationItems, currentPage, CARS, itemsPerPage);
 
@@ -79,6 +79,10 @@ dom.pagination.addEventListener('click', (e) => {
     }
   }
 });
+
+dom.showMore.addEventListener('click', () => {
+
+})
 
 render(createCardsHTML(CARS, currentPage, itemsPerPage), dom.feed);
 
@@ -183,12 +187,25 @@ function render(htmlStr, domElem, insertTo) {
   }
 }
 
-function createCardsHTML(cardsArray, currentPage, limit) {
+function createCardsHTML(cardsArray, currentPage, limit, ) {
+  
+  // console.log(showMoreCard)
+  // cardsArray.reduce((previousValue, cu, index, cardsArray) => {
+  //   console.log(limit)
+  //   return previousValue + limit;
+  // })
+  
   return [...cardsArray]
     .splice((currentPage - 1) * limit, limit)
     .map((cardData) => createCardHTML(cardData))
     .join('');
+
+//     const showMoreCard = cardsArray.reduce((nextValue, cardsArray) => {
+//       return [...cardsArray].push(nextValue)
+//     })
 }
+
+
 
 function createCardHTML(cardData) {
   return `
@@ -391,3 +408,15 @@ function createRating(rating) {
 // children2.sort((a, b) => {
 //   return a.gender.localeCompare(b.gender) * 1 || (a.height - b.height) * 1;
 // });
+
+
+//forEach
+const num = [2, 3, 6, 4, 3, 7];
+for(let i = 0; i < num.length; i++) {
+  const numArr = num[i];
+  const numArr2 = num[i] + num[i];
+  console.log(numArr)
+  console.log(numArr2)
+}
+
+//map

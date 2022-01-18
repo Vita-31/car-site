@@ -3,6 +3,6 @@ export const dom = {
     sortSelect: document.getElementById('sortSelect'),
     searchForm: document.getElementById('searchForm'),
     paginationItems: document.getElementById('paginationItems'),
-    pagination: document.getElementById('pagination')
-    
+    pagination: document.getElementById('pagination'),
+    showMore: document.getElementById('showMore')
 };
