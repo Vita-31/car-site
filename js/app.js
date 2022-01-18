@@ -1,23 +1,93 @@
-import { DATA } from "./cars.js";
-import { dom } from "./dom.js";
+import { DATA } from './cars.js';
+import { dom } from './dom.js';
 
 const INITIAL_CARS = JSON.parse(DATA);
 let CARS = INITIAL_CARS;
 
-
-const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || []
+const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || [];
 
 const searchFields = ['make', 'model', 'year'];
 
-render(createCardsHTML(CARS), dom.feed);
+const queryParams = Object.fromEntries(
+  location.search
+    .slice(1)
+    .split('&')
+    .map((pair) => pair.split('='))
+);
+const currentPage = Number(queryParams.page) || 7;
+let itemsPerPage = 2;
 
+renderPagination(dom.paginationItems, currentPage, CARS, itemsPerPage);
+
+function calculatePagination(currentPage, totalItems, itemsPerPage) {
+  const firstPage = 1;
+  const lastPage = Math.ceil(totalItems / itemsPerPage);
+  if (currentPage < firstPage || currentPage > lastPage) {
+    return [currentPage];
+  }
+  const paginationPages = [];
+  paginationPages.push(firstPage);
+  if (currentPage > firstPage + 1) {
+    if (currentPage - firstPage > 2) {
+      paginationPages.push('...');
+    }
+    paginationPages.push(currentPage - 1);
+  }
+  if (currentPage !== firstPage && currentPage !== lastPage) {
+    paginationPages.push(currentPage);
+  }
+  if (currentPage < lastPage - 1) {
+    paginationPages.push(currentPage + 1);
+    if (lastPage - currentPage > 2) {
+      paginationPages.push('...');
+    }
+  }
+  paginationPages.push(lastPage);
+  return paginationPages;
+}
+
+function createPaginationItems(pagination) {
+  return pagination
+    .map((item) => {
+      return `<li class="pagination__page ${item === currentPage ? 'pagination__page--active' : ''}">
+    ${item === '...' || item === currentPage ? item : `<a href="/?page=${item}" >${item}</a>`}
+    </li>`;
+    })
+    .join('');
+}
+
+function renderPagination(domElem, currentPage, CARS, itemsPerPage) {
+  const pagination = calculatePagination(currentPage, CARS.length, itemsPerPage);
+  const pagesHtml = createPaginationItems(pagination);
+  render(pagesHtml, domElem);
+}
+
+dom.pagination.addEventListener('click', (e) => {
+  const btn = e.target.closest('.button');
+  if (btn) {
+    const action = btn.dataset.action;
+    const currentPageItem = dom.paginationItems.querySelector('.pagination__page--active');
+    let actionLink = null;
+    if (action === 'prev') {
+      actionLink = currentPageItem.previousElementSibling?.firstElementChild;
+    }
+    if (action === 'next') {
+      actionLink = currentPageItem.nextElementSibling?.firstElementChild;
+    }
+    if (actionLink) {
+      actionLink.click();
+    }
+  }
+});
+
+render(createCardsHTML(CARS, currentPage, itemsPerPage), dom.feed);
 
 dom.sortSelect.addEventListener('change', (e) => {
-    const sortValue = e.target.value.split('/');
-    const key = sortValue[0];
-    const order = sortValue[1];
-    createSort(key, order);
-    render(createCardsHTML(CARS), dom.feed);
+  const sortValue = e.target.value.split('/');
+  const key = sortValue[0];
+  const order = sortValue[1];
+  createSort(key, order);
+  render(createCardsHTML(CARS), dom.feed);
 });
 
 dom.searchForm.addEventListener('submit', (e) => {
@@ -29,34 +99,32 @@ dom.searchForm.addEventListener('submit', (e) => {
 });
 
 dom.feed.addEventListener('click', (e) => {
-  const favoriteBtn = e.target.closest('.card__favorite')
+  const favoriteBtn = e.target.closest('.card__favorite');
   if (favoriteBtn) {
-    favoriteBtn.classList.toggle('favorite')
-    const carId = favoriteBtn.closest('.card').dataset.id
-    setFavoriteCar(carId)
+    favoriteBtn.classList.toggle('favorite');
+    const carId = favoriteBtn.closest('.card').dataset.id;
+    setFavoriteCar(carId);
   }
-})
+});
 
 function setFavoriteCar(carId) {
-  const exist = favoriteCars.findIndex(favoriteCarId => favoriteCarId === carId)
+  const exist = favoriteCars.findIndex((favoriteCarId) => favoriteCarId === carId);
   if (exist === -1) {
-    favoriteCars.push(carId)
-  } else{
-    favoriteCars.splice(exist, 1)
+    favoriteCars.push(carId);
+  } else {
+    favoriteCars.splice(exist, 1);
   }
-  localStorage.setItem('favoriteCars', JSON.stringify(favoriteCars))
+  localStorage.setItem('favoriteCars', JSON.stringify(favoriteCars));
 }
 
-
-
 function search(query, array, fields) {
-  return array.filter(el => {
-    return query.every(word => {
-      return fields.some(field => {
-        return String(el[field]).toLowerCase().includes(word)
-      })
-    })
-  })
+  return array.filter((el) => {
+    return query.every((word) => {
+      return fields.some((field) => {
+        return String(el[field]).toLowerCase().includes(word);
+      });
+    });
+  });
 }
 
 // function searchTwo(query, array, fields) {
@@ -115,8 +183,11 @@ function render(htmlStr, domElem, insertTo) {
   }
 }
 
-function createCardsHTML(cardsArray) {
-  return cardsArray.map((cardData) => createCardHTML(cardData)).join('');
+function createCardsHTML(cardsArray, currentPage, limit) {
+  return [...cardsArray]
+    .splice((currentPage - 1) * limit, limit)
+    .map((cardData) => createCardHTML(cardData))
+    .join('');
 }
 
 function createCardHTML(cardData) {
@@ -207,7 +278,9 @@ function createCardHTML(cardData) {
                 <p>Дата створення оголошення:</p>
                 <p>${new Date(cardData.timestamp).toLocaleDateString()}</p>
               </div>
-              <button class="card__favorite ${favoriteCars.includes(cardData.id) ? 'favorite' : ''}" data-icon="favorite">
+              <button class="card__favorite ${
+                favoriteCars.includes(cardData.id) ? 'favorite' : ''
+              }" data-icon="favorite">
                 <i class="favorite-icon favorite-icon--full fas fa-star"></i>
                 <i class="favorite-icon favorite-icon--empty far fa-star"></i>
               </button>
@@ -232,34 +305,10 @@ function createRating(rating) {
   return stars;
 }
 
-
-const queryParams = Object.fromEntries(location.search.slice(1).split('&').map(pair=> pair.split('=')))
-const currentPage = Number(queryParams.page) || 7
-let itemsPerPage = 10
-
-renderPagination(currentPage, CARS.length, itemsPerPage) 
-
-function renderPagination(currentPage, totalItems, itemsPerPage) {
-  const firstPage = 1
-  const lastPage = Math.ceil(totalItems / itemsPerPage)
-  const paginationPages = []
-  paginationPages.push(firstPage)
-  if(currentPage === firstPage + 1) {
-    paginationPages.push(currentPage + '...') 
-  }
-  if(currentPage === lastPage - 1) {
-    paginationPages.push('...' + currentPage) 
-  }
-  if(currentPage !== firstPage + 1 && currentPage !== lastPage - 1) {
-    paginationPages.push('...')
-    paginationPages.push(currentPage - 1)
-    paginationPages.push(currentPage)
-    paginationPages.push(currentPage + 1)
-    paginationPages.push('...')
-  }
-  paginationPages.push(lastPage)
-  console.log(paginationPages)
-}
+// currentPage = 3
+// pages = 15
+// array is = ['1','2','3','...','15']
+//
 
 // currentPage = 7
 // pages = 15
@@ -280,7 +329,6 @@ function renderPagination(currentPage, totalItems, itemsPerPage) {
 // pages = 15
 // array is = ['1','2','3','...','15']
 //
-
 
 // const array = [5,10,9,12,2,6,7,11,4,3]
 // array.sort((a,b) => {
@@ -343,6 +391,3 @@ function renderPagination(currentPage, totalItems, itemsPerPage) {
 // children2.sort((a, b) => {
 //   return a.gender.localeCompare(b.gender) * 1 || (a.height - b.height) * 1;
 // });
-
-
-
