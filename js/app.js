@@ -414,9 +414,40 @@ function createRating(rating) {
 const num = [2, 3, 6, 4, 3, 7];
 for(let i = 0; i < num.length; i++) {
   const numArr = num[i];
-  const numArr2 = num[i] + num[i];
   console.log(numArr)
-  console.log(numArr2)
 }
 
 //map
+const numMap = [3, 6, 3, 8, 2];
+for(let i = 0; i < numMap.length; i++) {
+  const newNumMap = `${numMap[i]} - ${4}`
+  const newNumMap2 = `${numMap[i]} is number`
+  console.log(newNumMap)
+  console.log(newNumMap2)
+}
+
+//filter 
+const numFilter = [45, 6, 3, 4, 5];
+for(let i = 0; i < numFilter.length; i++) {
+ if(numFilter[i] > 5) {
+  console.log(`${numFilter[i]} - більше 5`)
+ } else {
+   console.log(`${numFilter[i]} - менше 5`)
+ }
+}
+
+//reduce
+let numReduce = [1, 2, 3, 4, 5, 6, 7, 8];
+const sum = numReduce.reduce((prevSum, currentNum) => { 
+  return prevSum + currentNum
+})
+console.log(sum)
+
+
+const reduceSum = [3, 4, 5, 6, 7, 8];
+let totalValue = 0;
+for(let i = 0; i < reduceSum.length; i++) {
+  const currentValue = reduceSum[i];
+  totalValue += currentValue;
+}
+console.log(totalValue)
