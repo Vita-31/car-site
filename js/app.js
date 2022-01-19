@@ -195,6 +195,7 @@ function createCardsHTML(cardsArray, currentPage, limit, ) {
   //   return previousValue + limit;
   // })
   
+
   return [...cardsArray]
     .splice((currentPage - 1) * limit, limit)
     .map((cardData) => createCardHTML(cardData))
@@ -205,6 +206,19 @@ function createCardsHTML(cardsArray, currentPage, limit, ) {
 //     })
 }
 
+const currentCards = 3;
+const totalCards = 0
+createCardsHTMLShowMore(CARS, currentCards, dom.feed)
+function createCardsHTMLShowMore(cardsArray, currentCards, limit) {
+  return [...cardsArray]
+  .splice((currentCards - 1) * limit, limit)
+  .reduce(([...cardsArray], currentCards) => {
+    totalCards = cardsArray + currentCards
+    console.log(totalCards)
+  })
+    // .reduce((cardsArray, ))
+}
+console.log(totalCards)
 
 
 function createCardHTML(cardData) {
